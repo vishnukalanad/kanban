@@ -3,7 +3,7 @@ import {createReducer, on} from '@ngrx/store';
 import {
   addTask, addToDoneList, addToInProgressList, addToTodoList, deleteDoneTask,
   deleteInProgressTask,
-  deleteTodoTask,
+  deleteTodoTask, reorderTasks,
   setDoneTasks,
   setInProgressTasks,
   setTasks,
@@ -13,7 +13,7 @@ import {
 const initialState: State = {
   tasks: [],
   todo: [],
-  inProgress: [],
+  "in-progress": [],
   done: [],
 }
 
@@ -31,7 +31,7 @@ export const taskReducer = createReducer(
   ),
   on(setInProgressTasks, (state, {tasks}) => ({
       ...state,
-      inProgress: [...tasks]
+    ["in-progress"]: [...tasks]
     })
   ),
   on(setDoneTasks, (state, {tasks}) => ({
@@ -49,7 +49,7 @@ export const taskReducer = createReducer(
   })),
   on(deleteInProgressTask, (state, {id}) => ({
     ...state,
-    inProgress: [...state.inProgress.filter(task => task.id !== id)]
+    ["in-progress"]: [...state["in-progress"].filter(task => task.id !== id)]
   })),
   on(deleteDoneTask, (state, {id}) => ({
     ...state,
@@ -62,10 +62,21 @@ export const taskReducer = createReducer(
   })),
   on(addToInProgressList, (state, {task}) => ({
     ...state,
-    inProgress: [...state.inProgress, task]
+    ["in-progress"]: [...state["in-progress"], task]
   })),
   on(addToDoneList, (state, {task}) => ({
     ...state,
     done: [...state.done, task]
+  })),
+  on(reorderTasks, (state, {column, prevIndex, nextIndex}) => ({
+    ...state,
+    [column]: moveItem(state[column], prevIndex, nextIndex)
   }))
 );
+
+function moveItem<T>(array: T[], fromIndex: number, toIndex: number): T[] {
+  const cloned = [...array];
+  const [item] = cloned.splice(fromIndex, 1);
+  cloned.splice(toIndex, 0, item);
+  return cloned;
+}

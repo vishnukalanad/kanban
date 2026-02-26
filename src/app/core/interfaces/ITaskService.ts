@@ -7,4 +7,5 @@ export interface ITaskService {
   setTasks(task: Task[]): Observable<Task[]>;
   addTask(task: Task, type: TaskTypes): void;
   deleteTask(taskId: string, type: TaskTypes): void;
+  reorderTasks(column: TaskTypes, prevIndex: number, nextIndex: number): void;
 }

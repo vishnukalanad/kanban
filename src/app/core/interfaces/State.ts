@@ -3,6 +3,6 @@ import {Task} from './Task';
 export interface State {
   tasks: Task[];
   todo: Task[];
-  inProgress: Task[];
+  "in-progress": Task[];
   done: Task[];
 }

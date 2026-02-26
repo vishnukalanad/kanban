@@ -1,0 +1,4 @@
+.cdk-drop-list-dragging .cdk-drag:not(.cdk-drag-dragging) {
+  opacity: 0.4;
+  transition: opacity 200ms ease;
+}

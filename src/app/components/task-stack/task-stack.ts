@@ -6,7 +6,6 @@ import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {getDoneTasks, getInProgressTasks, getTodoTasks, tasksSelector} from '../../core/store/selectors';
-import {setDoneTasks, setInProgressTasks, setTasks, setTodoTasks} from '../../core/store/actions';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {TASK_SERVICE} from '../../core/tokens/TaskService';
 import {ITaskService} from '../../core/interfaces/ITaskService';
@@ -38,6 +37,9 @@ export class TaskStack {
   todoTasks: Signal<Task[]>;
   inProgressTasks: Signal<Task[]>;
   doneTasks: Signal<Task[]>;
+
+  draggingId: string | null = "";
+  dragging: boolean = false;
 
   constructor(private store: Store, @Inject(TASK_SERVICE) private taskService: ITaskService) {
     this.$tasks = store.select(tasksSelector);
@@ -90,31 +92,16 @@ export class TaskStack {
 
     console.log(targetId, currentId, itemId, selectedTask);
 
-    let targetTasks: Task[] | [];
-
     selectedTask = {
       ...selectedTask,
       status: targetId
     }
 
-    switch (targetId) {
-      case "todo":
-        targetTasks = this.todoTasks()!;
-        break;
-      case "in-progress":
-        targetTasks = this.inProgressTasks()!;
-        break;
-      case "done":
-        targetTasks = this.doneTasks()!;
-        break;
-      default:
-        targetTasks = [];
-        break;
+    if (currentId !== targetId) {
+      this.taskService.addTask(selectedTask, targetId);
+      this.taskService.deleteTask(itemId, currentId);
+    } else {
+      this.taskService.reorderTasks(targetId, previousIndex, newIndex);
     }
-
-    this.taskService.addTask(selectedTask, targetId);
-    this.taskService.deleteTask(itemId, currentId);
-    console.log(targetTasks, selectedTask);
-
   }
 }

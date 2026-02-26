@@ -16,7 +16,7 @@
        (cdkDropListDropped)="drop($event)" [id]="type()" [cdkDropListConnectedTo]="connectedTo">
     @for (task of tasks(); track task.id) {
       @if (task.status === type()) {
-        <div cdkDrag [cdkDragData]="task" class="bg-white rounded-xl border border-slate-200 p-2" id="{{ task.id }}">
+        <div cdkDrag [cdkDragData]="task" class="bg-white rounded-xl border border-slate-200 p-2" id="{{ task.id }}" (cdkDragStarted)="dragging = true; draggingId = task.id" (cdkDragEnded)="draggingId = null; dragging = false">
         <span class="text-xs font-semibold rounded-md px-2 py-1" [ngClass]="task.status | statusColor">
           {{ task.status | uppercase }}
         </span>
@@ -49,6 +49,11 @@
           </div>
         </div>
       }
+    }
+    @if (tasks().length === 0) {
+      <div class="text-center text-slate-500 py-4 border border-dashed border-slate-300 rounded-xl">
+        Drag and drop tasks here
+      </div>
     }
   </div>
 
