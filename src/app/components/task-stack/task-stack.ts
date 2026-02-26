@@ -2,7 +2,7 @@ import {Component, Inject, input, InputSignal, Signal} from '@angular/core';
 import {Task} from '../../core/interfaces/Task';
 import {DatePipe, NgClass, UpperCasePipe} from '@angular/common';
 import {StatusColorPipe} from '../../core/pipes/status-color-pipe';
-import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
+import {CdkDrag, CdkDragPlaceholder, CdkDropList} from '@angular/cdk/drag-drop';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {getDoneTasks, getInProgressTasks, getTodoTasks, tasksSelector} from '../../core/store/selectors';
@@ -18,7 +18,8 @@ import {ITaskService} from '../../core/interfaces/ITaskService';
     StatusColorPipe,
     DatePipe,
     CdkDrag,
-    CdkDropList
+    CdkDropList,
+    CdkDragPlaceholder
   ],
   templateUrl: './task-stack.html',
   styleUrl: './task-stack.css',

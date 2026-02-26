@@ -1,4 +1,10 @@
 .cdk-drop-list-dragging .cdk-drag:not(.cdk-drag-dragging) {
   opacity: 0.4;
-  transition: opacity 200ms ease;
+  transition: transform 250ms cubic-bezier(0.2, 0, 0, 1), opacity 150ms ease;
 }
+
+/*For the being dragged element, when released animate to position*/
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
