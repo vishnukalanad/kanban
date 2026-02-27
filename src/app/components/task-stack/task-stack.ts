@@ -1,6 +1,6 @@
 import {Component, Inject, input, InputSignal, Signal} from '@angular/core';
 import {Task} from '../../core/interfaces/Task';
-import {DatePipe, NgClass, UpperCasePipe} from '@angular/common';
+import {DatePipe, NgClass, TitleCasePipe, UpperCasePipe} from '@angular/common';
 import {StatusColorPipe} from '../../core/pipes/status-color-pipe';
 import {CdkDrag, CdkDragPlaceholder, CdkDropList} from '@angular/cdk/drag-drop';
 import {Store} from '@ngrx/store';
@@ -19,14 +19,14 @@ import {ITaskService} from '../../core/interfaces/ITaskService';
     DatePipe,
     CdkDrag,
     CdkDropList,
-    CdkDragPlaceholder
+    CdkDragPlaceholder,
+    TitleCasePipe
   ],
   templateUrl: './task-stack.html',
   styleUrl: './task-stack.css',
 })
 export class TaskStack {
   tasks: InputSignal<Task[]> = input.required<Task[]>();
-  // title: InputSignal<string> = input.required<string>();
 
   connectedTo: string[] = ["todo", "done", "in-progress"];
 
@@ -35,29 +35,22 @@ export class TaskStack {
   type: InputSignal<"todo" | "done" | "in-progress"> = input.required<"todo" | "done" | "in-progress">();
   $tasks: Observable<any>;
 
-  todoTasks: Signal<Task[]>;
-  inProgressTasks: Signal<Task[]>;
-  doneTasks: Signal<Task[]>;
 
   draggingId: string | null = "";
   dragging: boolean = false;
 
+  toggleTaskOptions: Map<string, boolean> = new Map();
+
   constructor(private store: Store, @Inject(TASK_SERVICE) private taskService: ITaskService) {
     this.$tasks = store.select(tasksSelector);
-
-    this.todoTasks = toSignal(store.select(getTodoTasks), {
-      initialValue: []
-    });
-    this.inProgressTasks = toSignal(store.select(getInProgressTasks), {
-      initialValue: []
-    });
-    this.doneTasks = toSignal(store.select(getDoneTasks), {
-      initialValue: []
-    });
   }
 
   ngOnInit() {
     this.setTitle();
+
+    for (let task of this.tasks()) {
+      this.toggleTaskOptions.set("options-"+task.id, false);
+    }
   }
 
   setTitle() {
@@ -104,5 +97,9 @@ export class TaskStack {
     } else {
       this.taskService.reorderTasks(targetId, previousIndex, newIndex);
     }
+  }
+
+  toggleTaskOptionsHandler(id: string) {
+    this.toggleTaskOptions.set(id, !this.toggleTaskOptions.get(id));
   }
 }
