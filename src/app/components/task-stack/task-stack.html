@@ -1,14 +1,14 @@
-<div class="flex flex-col gap-2 p-3 rounded-2xl bg-slate-100 w-full">
+<div class="flex flex-col gap-2 p-3 rounded-2xl bg-slate-100 w-full ">
   <div class="flex items-center justify-between px-1">
     <div class="flex items-center gap-2">
       <div class="h-2 w-2 rounded-full" [ngClass]="[primaryColor]"></div>
-      <p class="text-sm font-semibold flex gap-2"> {{ title | uppercase }} <span
+      <p class="text-sm text-slate-600 font-medium flex gap-2"> {{ title | titlecase }} <span
         class="px-3 py-0 rounded-full font-semibold text-xs flex items-center justify-center text-white bg-slate-500">{{ tasks().length }}</span>
       </p>
     </div>
     <div class="flex items-center gap-2">
       <button
-        class="bg-slate-200 font-medium py-1 px-2 rounded-md text-slate-500 hover:text-slate-700 flex items-center justify-center">
+        class="bg-blue-200 font-medium py-1 px-2 rounded-md text-blue-700 hover:text-slate-700 flex items-center justify-center">
         <span class="text-xs">New Task</span></button>
 <!--      <button class="font-semibold text-slate-500 hover:text-slate-700"><i class="bi bi-three-dots"></i></button>-->
     </div>
@@ -59,8 +59,7 @@
           <div>
 
             <div class="flex items-center justify-between gap-2">
-              <p class="text-xs text-slate-700 mt-1"><span class="font-medium"><i
-                class="bi bi-flag"></i> {{ task.dueDate | date: 'dd MMM, yyyy' }}</span></p>
+              <p class="text-xs text-slate-700 mt-1 flex items-start gap-1 font-medium"><i class="bi bi-calendar4-event"></i> {{ task.dueDate | date: 'dd MMM, yyyy' }}</p>
               <div class="flex -space-x-2">
                 @for (assignee of task.assignees; track assignee) {
                   <div

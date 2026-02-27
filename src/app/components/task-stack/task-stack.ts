@@ -1,19 +1,26 @@
-import {Component, ElementRef, HostListener, Inject, input, InputSignal, Signal, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  Inject,
+  input,
+  InputSignal,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {Task} from '../../core/interfaces/Task';
-import {DatePipe, NgClass, TitleCasePipe, UpperCasePipe} from '@angular/common';
+import {DatePipe, NgClass, TitleCasePipe} from '@angular/common';
 import {StatusColorPipe} from '../../core/pipes/status-color-pipe';
 import {CdkDrag, CdkDragPlaceholder, CdkDropList} from '@angular/cdk/drag-drop';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {getDoneTasks, getInProgressTasks, getTodoTasks, tasksSelector} from '../../core/store/selectors';
-import {toSignal} from '@angular/core/rxjs-interop';
+import {tasksSelector} from '../../core/store/selectors';
 import {TASK_SERVICE} from '../../core/tokens/TaskService';
 import {ITaskService} from '../../core/interfaces/ITaskService';
 
 @Component({
   selector: 'app-task-stack',
   imports: [
-    UpperCasePipe,
     NgClass,
     StatusColorPipe,
     DatePipe,
@@ -24,6 +31,7 @@ import {ITaskService} from '../../core/interfaces/ITaskService';
   ],
   templateUrl: './task-stack.html',
   styleUrl: './task-stack.css',
+  encapsulation: ViewEncapsulation.None
 })
 export class TaskStack {
   tasks: InputSignal<Task[]> = input.required<Task[]>();
