@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Inject, input, InputSignal, Signal} from '@angular/core';
+import {Component, ElementRef, HostListener, Inject, input, InputSignal, Signal, ViewChild} from '@angular/core';
 import {Task} from '../../core/interfaces/Task';
 import {DatePipe, NgClass, TitleCasePipe, UpperCasePipe} from '@angular/common';
 import {StatusColorPipe} from '../../core/pipes/status-color-pipe';
@@ -45,6 +45,8 @@ export class TaskStack {
     this.$tasks = store.select(tasksSelector);
   }
 
+  @ViewChild("toggleOptionsContainer") toggleOptionsContainer!: ElementRef;
+
   ngOnInit() {
     this.setTitle();
 
@@ -74,18 +76,13 @@ export class TaskStack {
   }
 
   drop(e: any) {
-    console.log(e);
-
     const newIndex = e.currentIndex;
     const previousIndex = e.previousIndex;
 
     const targetId = e.container.id;
     const currentId = e.previousContainer.id;
     let selectedTask: Task = e.item.data;
-
     const itemId = e.item.element.nativeElement.id;
-
-    console.log(targetId, currentId, itemId, selectedTask);
 
     selectedTask = {
       ...selectedTask,
@@ -100,16 +97,22 @@ export class TaskStack {
     }
   }
 
-  toggleTaskOptionsHandler(id: string) {
-    this.toggleTaskOptions.clear();
+  toggleTaskOptionsHandler(id: string, e: MouseEvent) {
+    // this.toggleTaskOptions.clear();
     this.toggleTaskOptions.set(id, !this.toggleTaskOptions.get(id));
   }
 
   @HostListener('document:click', ['$event'])
   clickOutside(event: MouseEvent) {
-    if (!this.el.nativeElement.contains(event.target)) {
-      this.toggleTaskOptions.clear();
-      return;
+    try {
+      const clickInside = this.toggleOptionsContainer.nativeElement.contains(event.target);
+      if (!clickInside) {
+        this.toggleTaskOptions.clear();
+        return;
+      }
+    } catch (e) {
+      // ignoring the undefined error from click event; cause known, kept for debugging later;
+      // console.log(e);
     }
   }
 }
