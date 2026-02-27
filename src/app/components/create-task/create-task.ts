@@ -41,6 +41,9 @@ export class CreateTask {
     }),
     comments: new FormControl([], {
       validators: []
+    }),
+    id: new FormControl("", {
+      validators: []
     })
   });
 
@@ -52,9 +55,15 @@ export class CreateTask {
   }
 
   submit() {
+    this.taskForm.value.id = this.generateUUID();
+    console.log(this.taskForm.value);
     this.taskService.addTask(this.taskForm.value, this.taskForm.value.status);
     this.taskForm.reset();
     this.taskService.toggleCreateTask();
+  }
+
+  generateUUID(): string {
+    return crypto.randomUUID();
   }
 
   cancel() {
