@@ -1,0 +1,7 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+  @for (card of cardsData; track card.id) {
+    <div>
+      <app-icon-card [color]="card.color" [icon]="card.icon" [title]="card.title" [count]="card.count" [description]="card.description" />
+    </div>
+  }
+</div>

@@ -1,0 +1,13 @@
+<div class="border border-slate-200 rounded-xl p-2">
+  <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2">
+      <div class="h-10 w-10 rounded-md flex items-center justify-center bg-slate-200">
+        <i [class]="icon()"></i>
+      </div>
+    </div>
+    <div>
+      <p class="text-base font-medium">{{ count() }} {{ title() }}</p>
+      <p class="text-sm text-slate-500">{{ description() }}</p>
+    </div>
+  </div>
+</div>
