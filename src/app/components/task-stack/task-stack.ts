@@ -1,4 +1,4 @@
-import {Component, Inject, input, InputSignal, Signal} from '@angular/core';
+import {Component, ElementRef, HostListener, Inject, input, InputSignal, Signal} from '@angular/core';
 import {Task} from '../../core/interfaces/Task';
 import {DatePipe, NgClass, TitleCasePipe, UpperCasePipe} from '@angular/common';
 import {StatusColorPipe} from '../../core/pipes/status-color-pipe';
@@ -41,7 +41,7 @@ export class TaskStack {
 
   toggleTaskOptions: Map<string, boolean> = new Map();
 
-  constructor(private store: Store, @Inject(TASK_SERVICE) private taskService: ITaskService) {
+  constructor(private store: Store, @Inject(TASK_SERVICE) private taskService: ITaskService, private el: ElementRef) {
     this.$tasks = store.select(tasksSelector);
   }
 
@@ -52,6 +52,7 @@ export class TaskStack {
       this.toggleTaskOptions.set("options-"+task.id, false);
     }
   }
+
 
   setTitle() {
     switch (this.type()) {
@@ -100,6 +101,15 @@ export class TaskStack {
   }
 
   toggleTaskOptionsHandler(id: string) {
+    this.toggleTaskOptions.clear();
     this.toggleTaskOptions.set(id, !this.toggleTaskOptions.get(id));
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: MouseEvent) {
+    if (!this.el.nativeElement.contains(event.target)) {
+      this.toggleTaskOptions.clear();
+      return;
+    }
   }
 }
