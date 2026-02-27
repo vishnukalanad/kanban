@@ -4,7 +4,6 @@ import {DatePipe} from '@angular/common';
 import {TASK_SERVICE} from '../../core/tokens/TaskService';
 import {TaskService} from '../../core/services/task-service';
 import {ITaskService} from '../../core/interfaces/ITaskService';
-import {TaskTypes} from '../../core/types/Tasks';
 
 @Component({
   selector: 'app-create-task',
@@ -24,11 +23,10 @@ import {TaskTypes} from '../../core/types/Tasks';
 export class CreateTask {
   taskForm: FormGroup = new FormGroup({
     title: new FormControl("", {
-      validators: []
+      validators: [],
+      updateOn: "blur"
     }),
-    description: new FormControl("", {
-      validators: []
-    }),
+    description: new FormControl("", {validators: []}),
     dueDate: new FormControl("", {
       validators: []
     }),
@@ -41,6 +39,9 @@ export class CreateTask {
     assignee: new FormControl([], {
       validators: []
     }),
+    comments: new FormControl([], {
+      validators: []
+    })
   });
 
   constructor(@Inject(TASK_SERVICE) private taskService: ITaskService) {
@@ -51,7 +52,9 @@ export class CreateTask {
   }
 
   submit() {
-    console.log(this.taskForm.value);
+    this.taskService.addTask(this.taskForm.value, this.taskForm.value.status);
+    this.taskForm.reset();
+    this.taskService.toggleCreateTask();
   }
 
   cancel() {
