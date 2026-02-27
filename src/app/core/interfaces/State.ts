@@ -5,4 +5,5 @@ export interface State {
   todo: Task[];
   "in-progress": Task[];
   done: Task[];
+  modal: boolean;
 }

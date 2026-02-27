@@ -8,4 +8,5 @@ export interface ITaskService {
   addTask(task: Task, type: TaskTypes): void;
   deleteTask(taskId: string, type: TaskTypes): void;
   reorderTasks(column: TaskTypes, prevIndex: number, nextIndex: number): void;
+  toggleCreateTask(): void;
 }

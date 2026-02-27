@@ -8,3 +8,5 @@ export const getTasks = createSelector(tasksSelector, (state) => state.tasks)
 export const getTodoTasks = createSelector(tasksSelector, (state) => state.todo);
 export const getInProgressTasks = createSelector(tasksSelector, (state) => state["in-progress"]);
 export const getDoneTasks = createSelector(tasksSelector, (state) => state.done);
+
+export const getModalState = createSelector(tasksSelector, (state) => state.modal);

@@ -11,7 +11,7 @@ import {
   addToTodoList,
   deleteDoneTask,
   deleteInProgressTask,
-  deleteTodoTask, reorderTasks,
+  deleteTodoTask, modalToggle, reorderTasks,
   setDoneTasks,
   setInProgressTasks,
   setTodoTasks
@@ -77,5 +77,9 @@ export class TaskService implements ITaskService {
 
   reorderTasks(column: TaskTypes, prevIndex: number, nextIndex: number) {
     this.store.dispatch(reorderTasks({ column, prevIndex, nextIndex}))
+  }
+
+  toggleCreateTask() {
+    this.store.dispatch(modalToggle());
   }
 }

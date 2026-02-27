@@ -18,3 +18,5 @@ export const addToInProgressList = createAction("[Tasks] add to in progress", pr
 export const addToDoneList = createAction("[Tasks] add to done", props<{task: Task}>());
 
 export const reorderTasks = createAction("[Tasks] reorder tasks", props<{column: TaskTypes, prevIndex: number, nextIndex: number}>());
+
+export const modalToggle = createAction("[Tasks] modal toggle");

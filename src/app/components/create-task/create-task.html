@@ -1,0 +1,76 @@
+<div class="w-full">
+  <p class="text-xl px-2">Create Task</p>
+  <form [formGroup]="taskForm" class="mt-4">
+    <div class="grid grid-cols-12 gap-2">
+      <div class="col-span-8">
+        <div class="grid grid-cols-1 gap-2">
+          <div class="grid grid-cols-2 gap-2">
+            <div class="px-2">
+              <input type="text" placeholder="Task title" class="p-2 w-full border-0 border-b border-b-slate-200" formControlName="title"/>
+            </div>
+            <div class="grid-cols-3 gap-4 px-2">
+              <input type="text" placeholder="Due Date" class="border-0 border-b border-slate-200 p-2 w-full" readonly (click)="hiddenDateInput.showPicker()" value="{{ taskForm.get('dueDate')?.value | date: 'dd MMM, yyyy' }}" />
+              <input
+                #hiddenDateInput
+                type="date"
+                class="absolute opacity-0 pointer-events-none"
+                formControlName="dueDate"
+              />
+            </div>
+          </div>
+          <div class="px-2">
+            <textarea placeholder="Add a description" class="p-2 w-full h-56 border-0 focus:bg-gray-100 border-b border-b-slate-200" formControlName="description"></textarea>
+          </div>
+
+          <div>
+            <p class="px-2 text-sm text-slate-600">Set priority</p>
+            <div class="flex items-center gap-2 px-2 mt-2">
+              <div class="flex items-center gap-2">
+                <input type="radio" id="low" name="priority" value="low" formControlName="priority" />
+                <label for="low" class="text-sm text-slate-700">Low</label>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="radio" id="medium" name="priority" value="medium" formControlName="priority" />
+                <label for="medium" class="text-sm text-slate-700">Medium</label>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="radio" id="high" name="priority" value="high" formControlName="priority" />
+                <label for="high" class="text-sm text-slate-700">High</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-4 bg-slate-50 p-2 rounded-md">
+        <div class="px-2">
+          <p class="text-sm text-slate-600">Assignees</p>
+          <button class="mt-2 bg-slate-200 text-slate-700 text-sm p-2 px-3 rounded-md"><i class="bi bi-person-add"></i> Add Assignee</button>
+        </div>
+        <div class="px-2">
+          <hr class="mt-4" />
+        </div>
+        <div class="px-2">
+          <p class="text-sm text-slate-600 mt-2">Status</p>
+          <div class="flex flex-col items-start gap-2 mt-2">
+            <div class="flex items-center gap-2">
+              <input type="radio" id="todo" name="status" value="todo" formControlName="status" />
+              <label for="todo" class="text-sm text-yellow-600 px-2 py-1 rounded-md bg-yellow-100">Todo</label>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="radio" id="in-progress" name="status" value="in-progress" formControlName="status" />
+              <label for="in-progress" class="text-sm text-blue-600 px-2 py-1 rounded-md bg-blue-100">In-progress</label>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="radio" id="done" name="status" value="done" formControlName="status" />
+              <label for="done" class="text-sm text-green-600 px-2 py-1 rounded-md bg-green-100">Done</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="mt-4 flex items-center justify-end gap-2">
+    <button class="bg-slate-200 text-slate-700 font-medium p-2 px-3 rounded-md" (click)="cancel()">Cancel</button>
+    <button class="bg-indigo-700 text-white font-medium p-2 px-3 rounded-md" (click)="submit()">Create</button>
+  </div>
+</div>

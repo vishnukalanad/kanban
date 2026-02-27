@@ -3,7 +3,7 @@ import {createReducer, on} from '@ngrx/store';
 import {
   addTask, addToDoneList, addToInProgressList, addToTodoList, deleteDoneTask,
   deleteInProgressTask,
-  deleteTodoTask, reorderTasks,
+  deleteTodoTask, modalToggle, reorderTasks,
   setDoneTasks,
   setInProgressTasks,
   setTasks,
@@ -15,6 +15,7 @@ const initialState: State = {
   todo: [],
   "in-progress": [],
   done: [],
+  modal: false
 }
 
 export const taskReducer = createReducer(
@@ -71,7 +72,11 @@ export const taskReducer = createReducer(
   on(reorderTasks, (state, {column, prevIndex, nextIndex}) => ({
     ...state,
     [column]: moveItem(state[column], prevIndex, nextIndex)
-  }))
+  })),
+  on(modalToggle, (state) => ({
+    ...state,
+    modal: !state.modal
+  })),
 );
 
 function moveItem<T>(array: T[], fromIndex: number, toIndex: number): T[] {
