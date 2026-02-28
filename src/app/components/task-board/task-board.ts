@@ -51,7 +51,7 @@ export class TaskBoard {
   }
 
   ngOnInit() {
-    this.initializeTasks();
+    // this.initializeTasks();
   }
 
   /**
