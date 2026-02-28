@@ -6,13 +6,13 @@
         <div class="grid grid-cols-1 gap-2">
           <div class="grid grid-cols-2 gap-2">
             <div class="px-2">
-              <input type="text" placeholder="Task title" class="p-2 w-full border-0 border-b border-b-slate-200" [class.border-b-red-500]="getFormError('title')" [class.bg-red-50]="getFormError('title')" formControlName="title"/>
+              <input type="text" placeholder="Task title" class="p-2 w-full border-0 border-b" [class.border-b-red-500]="getFormError('title')" [class.bg-red-50]="getFormError('title')" formControlName="title"/>
               @if (getFormError('title')) {
                 <span class="text-sm text-red-600">Required with min 3 characters!</span>
               }
             </div>
             <div class="grid-cols-3 gap-4 px-2">
-              <input type="text" placeholder="Due Date" class="border-0 border-b border-slate-200 p-2 w-full" readonly (click)="hiddenDateInput.showPicker(); taskForm.get('dueDate')?.markAsTouched()" [class.border-b-red-500]="getFormError('dueDate')" [class.bg-red-50]="getFormError('dueDate')" value="{{ taskForm.get('dueDate')?.value | date: 'dd MMM, yyyy' }}" />
+              <input type="text" placeholder="Due Date" class="border-0 border-b p-2 w-full" readonly (click)="hiddenDateInput.showPicker(); taskForm.get('dueDate')?.markAsTouched()" [class.border-b-red-500]="getFormError('dueDate')" [class.bg-red-50]="getFormError('dueDate')" value="{{ taskForm.get('dueDate')?.value | date: 'dd MMM, yyyy' }}" />
               <input
                 #hiddenDateInput
                 type="date"
@@ -25,7 +25,7 @@
             </div>
           </div>
           <div class="px-2">
-            <textarea placeholder="Add a description" class="p-2 w-full h-56 border-0 focus:bg-gray-100 border-b border-b-slate-200" [class.border-b-red-500]="getFormError('description')" [class.bg-red-50]="getFormError('description')" formControlName="description"></textarea>
+            <textarea placeholder="Add a description" class="p-2 w-full h-56 border-0 focus:bg-gray-100 border-b" [class.border-b-red-500]="getFormError('description')" [class.bg-red-50]="getFormError('description')" formControlName="description"></textarea>
             @if (getFormError('description')) {
               <span class="text-sm text-red-600">Required with min 3 characters!</span>
             }
