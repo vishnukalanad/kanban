@@ -1,5 +1,5 @@
 import {Component, Inject, input, InputSignal} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {DatePipe} from '@angular/common';
 import {TASK_SERVICE} from '../../core/tokens/TaskService';
 import {TaskService} from '../../core/services/task-service';
@@ -23,18 +23,18 @@ import {ITaskService} from '../../core/interfaces/ITaskService';
 export class CreateTask {
   taskForm: FormGroup = new FormGroup({
     title: new FormControl("", {
-      validators: [],
-      updateOn: "blur"
+      validators: [Validators.required, Validators.minLength(3)],
+      updateOn: "change"
     }),
-    description: new FormControl("", {validators: []}),
+    description: new FormControl("", {validators: [Validators.required, Validators.minLength(3),], updateOn: "change"}),
     dueDate: new FormControl("", {
-      validators: []
+      validators: [Validators.required]
     }),
-    priority: new FormControl("", {
-      validators: []
+    priority: new FormControl("high", {
+      validators: [Validators.required]
     }),
     status: new FormControl("todo", {
-      validators: []
+      validators: [Validators.required]
     }),
     assignee: new FormControl([], {
       validators: []
@@ -57,9 +57,13 @@ export class CreateTask {
   submit() {
     this.taskForm.value.id = this.generateUUID();
     console.log(this.taskForm.value);
-    this.taskService.addTask(this.taskForm.value, this.taskForm.value.status);
-    this.taskForm.reset();
-    this.taskService.toggleCreateTask();
+
+    this.taskForm.markAllAsTouched();
+    if (this.taskForm.valid) {
+      this.taskService.addTask(this.taskForm.value, this.taskForm.value.status);
+      this.taskForm.reset();
+      this.taskService.toggleCreateTask();
+    }
   }
 
   generateUUID(): string {
@@ -69,5 +73,9 @@ export class CreateTask {
   cancel() {
     this.taskForm.reset();
     this.taskService.toggleCreateTask();
+  }
+
+  getFormError(controlName: string) {
+    return this.taskForm.get(controlName)?.touched && this.taskForm.get(controlName)?.errors;
   }
 }
