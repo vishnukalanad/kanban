@@ -124,7 +124,7 @@ export class TaskStack {
     }
   }
 
-  toggleModal() {
-    this.taskService.toggleCreateTask();
-  }
+  // toggleModal() {
+  //   this.taskService.toggleCreateTask();
+  // }
 }

@@ -54,6 +54,9 @@ export class TaskBoard {
     // this.initializeTasks();
   }
 
+  /**
+   *
+   */
   initializeTasks() {
     let todoTasks: Task[] = [];
     let inProgressTasks: Task[] = [];
