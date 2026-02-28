@@ -51,11 +51,14 @@ export class TaskBoard {
   }
 
   ngOnInit() {
-    // this.initializeTasks();
+    this.initializeTasks();
   }
 
   /**
+   * Initializes tasks by categorizing them into different status-based arrays: todo, in-progress, and done.
+   * Dispatches the categorized tasks to respective actions in the store.
    *
+   * @return {void} This method does not return a value.
    */
   initializeTasks() {
     let todoTasks: Task[] = [];

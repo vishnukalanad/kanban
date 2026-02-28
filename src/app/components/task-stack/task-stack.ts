@@ -17,17 +17,17 @@ import {Observable} from 'rxjs';
 import {tasksSelector} from '../../core/store/selectors';
 import {TASK_SERVICE} from '../../core/tokens/TaskService';
 import {ITaskService} from '../../core/interfaces/ITaskService';
+import {Tasks} from '../tasks/tasks';
 
 @Component({
   selector: 'app-task-stack',
   imports: [
     NgClass,
-    StatusColorPipe,
-    DatePipe,
     CdkDrag,
     CdkDropList,
     CdkDragPlaceholder,
-    TitleCasePipe
+    TitleCasePipe,
+    Tasks
   ],
   templateUrl: './task-stack.html',
   styleUrl: './task-stack.css',
@@ -47,19 +47,16 @@ export class TaskStack {
   draggingId: string | null = "";
   dragging: boolean = false;
 
-  toggleTaskOptions: Map<string, boolean> = new Map();
 
   constructor(private store: Store, @Inject(TASK_SERVICE) private taskService: ITaskService, private el: ElementRef) {
     this.$tasks = store.select(tasksSelector);
   }
 
-  @ViewChild("toggleOptionsContainer") toggleOptionsContainer!: ElementRef;
-
   ngOnInit() {
     this.setTitle();
 
     for (let task of this.tasks()) {
-      this.toggleTaskOptions.set("options-"+task.id, false);
+      // this.toggleTaskOptions.set("options-"+task.id, false);
     }
   }
 
@@ -105,24 +102,9 @@ export class TaskStack {
     }
   }
 
-  toggleTaskOptionsHandler(id: string, e: MouseEvent) {
-    // this.toggleTaskOptions.clear();
-    this.toggleTaskOptions.set(id, !this.toggleTaskOptions.get(id));
-  }
 
-  @HostListener('document:click', ['$event'])
-  clickOutside(event: MouseEvent) {
-    try {
-      const clickInside = this.toggleOptionsContainer.nativeElement.contains(event.target);
-      if (!clickInside) {
-        this.toggleTaskOptions.clear();
-        return;
-      }
-    } catch (e) {
-      // ignoring the undefined error from click event; cause known, kept for debugging later;
-      // console.log(e);
-    }
-  }
+
+
 
   // toggleModal() {
   //   this.taskService.toggleCreateTask();
