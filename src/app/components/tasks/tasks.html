@@ -20,7 +20,7 @@
            class="absolute right-0 top-full mt-1 w-48 bg-white border border-slate-200 rounded-xl shadow-md shadow-slate-200 z-10 overflow-hidden">
         <button class="block w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">Edit
         </button>
-        <button class="block w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">Delete
+        <button class="block w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" (click)="deleteTask(task().id)">Delete
         </button>
       </div>
     }

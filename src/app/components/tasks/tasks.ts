@@ -1,4 +1,13 @@
-import {Component, ElementRef, HostListener, input, InputSignal, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  input,
+  InputSignal,
+  output,
+  OutputEmitterRef,
+  ViewChild
+} from '@angular/core';
 import {DatePipe, NgClass, TitleCasePipe} from '@angular/common';
 import {StatusColorPipe} from '../../core/pipes/status-color-pipe';
 import {Task} from '../../core/interfaces/Task';
@@ -22,6 +31,7 @@ export class Tasks {
   task: InputSignal<Task> = input.required<Task>();
   @ViewChild("toggleOptionsContainer") toggleOptionsContainer!: ElementRef;
   toggleTaskOptions: Map<string, boolean> = new Map();
+  delete: OutputEmitterRef<string> = output<string>();
 
   constructor() {
   }
@@ -61,5 +71,10 @@ export class Tasks {
       // ignoring the undefined error from click event; cause known, kept for debugging later;
       // console.log(e);
     }
+  }
+
+  deleteTask(id: string) {
+    this.delete.emit(id);
+    this.clickOutside(new MouseEvent('click'));
   }
 }

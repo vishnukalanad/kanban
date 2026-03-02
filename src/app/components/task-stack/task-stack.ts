@@ -43,7 +43,6 @@ export class TaskStack {
   type: InputSignal<"todo" | "done" | "in-progress"> = input.required<"todo" | "done" | "in-progress">();
   $tasks: Observable<any>;
 
-
   draggingId: string | null = "";
   dragging: boolean = false;
 
@@ -54,10 +53,6 @@ export class TaskStack {
 
   ngOnInit() {
     this.setTitle();
-
-    for (let task of this.tasks()) {
-      // this.toggleTaskOptions.set("options-"+task.id, false);
-    }
   }
 
 
@@ -97,16 +92,13 @@ export class TaskStack {
     if (currentId !== targetId) {
       this.taskService.addTask(selectedTask, targetId);
       this.taskService.deleteTask(itemId, currentId);
+      // this.taskService.initializeTasks();
     } else {
       this.taskService.reorderTasks(targetId, previousIndex, newIndex);
     }
   }
 
-
-
-
-
-  // toggleModal() {
-  //   this.taskService.toggleCreateTask();
-  // }
+  deleteTask(id: string) {
+    this.taskService.manualDelete(id);
+  }
 }

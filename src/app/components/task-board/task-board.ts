@@ -51,39 +51,7 @@ export class TaskBoard {
   }
 
   ngOnInit() {
-    // this.initializeTasks();
+    this.taskService.initializeTasks();
   }
 
-  /**
-   * Initializes tasks by categorizing them into different status-based arrays: todo, in-progress, and done.
-   * Dispatches the categorized tasks to respective actions in the store.
-   *
-   * @return {void} This method does not return a value.
-   */
-  initializeTasks() {
-    let todoTasks: Task[] = [];
-    let inProgressTasks: Task[] = [];
-    let doneTasks: Task[] = [];
-
-    for (let task of MOCK_TASKS) {
-      switch (task.status.toLowerCase()) {
-        case "todo":
-          todoTasks.push(task);
-          break;
-        case "in-progress":
-          inProgressTasks.push(task);
-          break;
-        case "done":
-          doneTasks.push(task);
-          break;
-        default:
-          break;
-
-      }
-    }
-
-    this.store.dispatch(setTodoTasks({tasks: todoTasks}))
-    this.store.dispatch(setInProgressTasks({tasks: inProgressTasks}))
-    this.store.dispatch(setDoneTasks({tasks: doneTasks}))
-  }
 }

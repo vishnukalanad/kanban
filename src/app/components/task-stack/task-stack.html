@@ -25,7 +25,7 @@
               <p class="text-sm text-slate-500">Over here!</p>
             </div>
           </ng-template>
-          <app-tasks [task]="task"></app-tasks>
+          <app-tasks [task]="task" (delete)="deleteTask($event)"></app-tasks>
         </div>
       }
     }

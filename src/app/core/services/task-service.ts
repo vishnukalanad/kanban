@@ -39,21 +39,49 @@ export class TaskService implements ITaskService {
     };
   }
 
+  public getFromStorage(): Task[] {
+    const tasks = localStorage.getItem("tasks");
+    if (tasks) {
+      return JSON.parse(tasks);
+    } else {
+      return [];
+    }
+  }
+
+  private saveToStorage(tasks: Task[]) {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+
   addTask(task: Task, type: TaskTypes) {
+    let tasks = this.getFromStorage();
+    const t = tasks.find(t => t.id === task.id);
+    tasks = tasks.filter(t => t.id !== task.id);
+
     switch (type) {
       case "todo":
         this.store.dispatch(addToTodoList({task: task}))
+        if (t) {
+          t.status = type;
+        }
         break;
       case "in-progress":
-        console.log('to in progress');
         this.store.dispatch(addToInProgressList({task: task}))
+        if (t) {
+          t.status = type;
+        }
         break;
       case "done":
         this.store.dispatch(addToDoneList({task: task}))
+        if (t) {
+          t.status = type;
+        }
         break;
       default:
         break;
     }
+
+    tasks.push(t ?? task);
+    this.saveToStorage(tasks);
   }
 
   setTasks(task: Task[]): any {
@@ -75,11 +103,45 @@ export class TaskService implements ITaskService {
     }
   }
 
+  manualDelete(taskId: string): void {
+    const task: Task = this.getFromStorage().find(t => t.id === taskId)!;
+    this.saveToStorage(this.getFromStorage().filter(t => t.id !== taskId));
+    this.deleteTask(taskId, task.status)
+  }
+
   reorderTasks(column: TaskTypes, prevIndex: number, nextIndex: number) {
-    this.store.dispatch(reorderTasks({ column, prevIndex, nextIndex}))
+    this.store.dispatch(reorderTasks({column, prevIndex, nextIndex}))
   }
 
   toggleCreateTask() {
     this.store.dispatch(modalToggle());
+  }
+
+  initializeTasks(): void {
+    let todoTasks: Task[] = [];
+    let inProgressTasks: Task[] = [];
+    let doneTasks: Task[] = [];
+
+    const tasks: Task[] = this.getFromStorage();
+
+    for (let task of tasks) {
+      switch (task.status.toLowerCase()) {
+        case "todo":
+          todoTasks.push(task);
+          break;
+        case "in-progress":
+          inProgressTasks.push(task);
+          break;
+        case "done":
+          doneTasks.push(task);
+          break;
+        default:
+          break;
+      }
+    }
+
+    this.store.dispatch(setTodoTasks({tasks: todoTasks}))
+    this.store.dispatch(setInProgressTasks({tasks: inProgressTasks}))
+    this.store.dispatch(setDoneTasks({tasks: doneTasks}))
   }
 }
