@@ -1,9 +1,11 @@
-import {Component, Inject, input, InputSignal} from '@angular/core';
+import {Component, Inject, input, InputSignal, ViewContainerRef} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {DatePipe} from '@angular/common';
 import {TASK_SERVICE} from '../../core/tokens/TaskService';
 import {TaskService} from '../../core/services/task-service';
 import {ITaskService} from '../../core/interfaces/ITaskService';
+import {Toast} from '../toast/toast';
+import {ToastService} from '../../core/services/toast';
 
 @Component({
   selector: 'app-create-task',
@@ -47,7 +49,7 @@ export class CreateTask {
     })
   });
 
-  constructor(@Inject(TASK_SERVICE) private taskService: ITaskService) {
+  constructor(@Inject(TASK_SERVICE) private taskService: ITaskService, private containerRef: ViewContainerRef, private toastService: ToastService) {
 
   }
 
@@ -55,7 +57,9 @@ export class CreateTask {
   }
 
   submit() {
-    this.taskForm.value.id = this.generateUUID();
+    this.taskForm.patchValue({
+      id: this.generateUUID(),
+    })
     console.log(this.taskForm.value);
 
     this.taskForm.markAllAsTouched();
@@ -63,6 +67,8 @@ export class CreateTask {
       this.taskService.addTask(this.taskForm.value, this.taskForm.value.status);
       this.taskForm.reset();
       this.taskService.toggleCreateTask();
+
+      this.toastService.success("SUCCESS", "Task created successfully!")
     }
   }
 

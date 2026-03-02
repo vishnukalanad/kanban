@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild, ViewContainerRef} from '@angular/core';
+import {ToastService} from '../../core/services/toast';
 
 @Component({
   selector: 'app-nav',
@@ -7,5 +8,12 @@ import { Component } from '@angular/core';
   styleUrl: './nav.css',
 })
 export class Nav {
+  @ViewChild('toastContainer', {read: ViewContainerRef}) toastContainer!: ViewContainerRef;
 
+  constructor(private toastService: ToastService) {
+  }
+
+  ngAfterViewInit() {
+    this.toastService.registerContainer(this.toastContainer);
+  }
 }

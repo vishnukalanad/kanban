@@ -9,6 +9,7 @@ import {AsyncPipe} from '@angular/common';
 import {TASK_SERVICE} from '../../core/tokens/TaskService';
 import {TaskService} from '../../core/services/task-service';
 import {ITaskService} from '../../core/interfaces/ITaskService';
+import {Toast} from '../../components/toast/toast';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,8 @@ import {ITaskService} from '../../core/interfaces/ITaskService';
     RouterLink,
     RouterLinkActive,
     CreateTask,
-    AsyncPipe
+    AsyncPipe,
+    Toast
   ],
   providers: [{
     provide: TASK_SERVICE,
@@ -28,6 +30,9 @@ import {ITaskService} from '../../core/interfaces/ITaskService';
 })
 export class Home {
   menuItems: any[] = tasksTabMenu;
+
+  toastTitle: string = "Task Created";
+  toastMessage: string = "Task created successfully!";
 
   $modalState: Observable<boolean>;
   constructor(private store: Store, @Inject(TASK_SERVICE) private taskService: ITaskService) {

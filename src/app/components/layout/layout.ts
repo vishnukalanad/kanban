@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild, ViewContainerRef} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {Nav} from '../nav/nav';
+import {ToastService} from '../../core/services/toast';
 
 @Component({
   selector: 'app-layout',
@@ -12,4 +13,6 @@ import {Nav} from '../nav/nav';
   styleUrl: './layout.css',
 })
 export class Layout {
+
+
 }
