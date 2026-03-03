@@ -1,12 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import {TaskTypes} from '../types/Tasks';
 
 @Pipe({
   name: 'statusColor'
 })
 export class StatusColorPipe implements PipeTransform {
 
-  transform(value: string, ...args: unknown[]): string[] {
-    switch (value.toLowerCase()) {
+  transform(value: TaskTypes | undefined, ...args: unknown[]): string[] {
+    switch (value?.toLowerCase()) {
       case "todo":
         return ["text-yellow-800", "bg-yellow-100"];
       case "in-progress":

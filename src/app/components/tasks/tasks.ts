@@ -32,6 +32,7 @@ export class Tasks {
   @ViewChild("toggleOptionsContainer") toggleOptionsContainer!: ElementRef;
   toggleTaskOptions: Map<string, boolean> = new Map();
   delete: OutputEmitterRef<string> = output<string>();
+  clickEvent: OutputEmitterRef<Task> = output<Task>();
 
   constructor() {
   }
@@ -76,5 +77,9 @@ export class Tasks {
   deleteTask(id: string) {
     this.delete.emit(id);
     this.clickOutside(new MouseEvent('click'));
+  }
+
+  onClick() {
+    this.clickEvent.emit(this.task());
   }
 }

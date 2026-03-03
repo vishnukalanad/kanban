@@ -7,7 +7,7 @@
 </div>
 <!--  TAILWIND PURGE ISSUE QUICK FIX END -->
 
-<div class="flex items-center justify-between">
+<div class="flex items-center justify-between" (click)="onClick()">
             <span class="text-xs font-medium rounded-md px-2 py-1" [ngClass]="task().status | statusColor">
               <i [ngClass]="task().status | statusIcon"></i>
               {{ task().status | titlecase }}
@@ -29,7 +29,7 @@
 
 <div class="py-2">
   <p class="text-base font-medium">{{ task().title }}</p>
-  <p class="text-sm text-slate-500">{{ task().description }}</p>
+  <p class="text-sm text-slate-500 line-clamp-2">{{ task().description }}</p>
 </div>
 <div>
 

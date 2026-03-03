@@ -12,4 +12,5 @@ export interface ITaskService {
   toggleCreateTask(): void;
   initializeTasks(): void;
   manualDelete(taskId: string): void;
+  getTask(taskId: string): Observable<Task | null>;
 }

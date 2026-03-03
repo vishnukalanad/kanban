@@ -10,3 +10,5 @@ export const getInProgressTasks = createSelector(tasksSelector, (state) => state
 export const getDoneTasks = createSelector(tasksSelector, (state) => state.done);
 
 export const getModalState = createSelector(tasksSelector, (state) => state.modal);
+
+export const getTask = createSelector(tasksSelector, (state) => state.task);

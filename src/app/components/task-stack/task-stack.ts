@@ -18,6 +18,7 @@ import {tasksSelector} from '../../core/store/selectors';
 import {TASK_SERVICE} from '../../core/tokens/TaskService';
 import {ITaskService} from '../../core/interfaces/ITaskService';
 import {Tasks} from '../tasks/tasks';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-task-stack',
@@ -47,7 +48,7 @@ export class TaskStack {
   dragging: boolean = false;
 
 
-  constructor(private store: Store, @Inject(TASK_SERVICE) private taskService: ITaskService, private el: ElementRef) {
+  constructor(private store: Store, @Inject(TASK_SERVICE) private taskService: ITaskService, private el: ElementRef, private router: Router) {
     this.$tasks = store.select(tasksSelector);
   }
 
@@ -100,5 +101,10 @@ export class TaskStack {
 
   deleteTask(id: string) {
     this.taskService.manualDelete(id);
+  }
+
+  taskClick(task: Task) {
+    const taskId = task.id;
+    this.router.navigate([`/board/preview/${taskId}`]);
   }
 }

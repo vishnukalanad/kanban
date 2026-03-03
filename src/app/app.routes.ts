@@ -11,7 +11,17 @@ export const routes: Routes = [
       },
       {
         path: 'board',
-        loadComponent: () => import('./components/task-board/task-board').then(m => m.TaskBoard)
+        loadComponent: () => import('./screens/board/board').then(m => m.Board),
+        children: [
+          {
+            path: "",
+            loadComponent: () => import('./components/task-board/task-board').then(m => m.TaskBoard),
+          },
+          {
+            path: 'preview/:id',
+            loadComponent: () => import('./components/preview/preview').then(m => m.Preview),
+          }
+        ]
       },
       {
         path: "list",

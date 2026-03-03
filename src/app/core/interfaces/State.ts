@@ -6,4 +6,5 @@ export interface State {
   "in-progress": Task[];
   done: Task[];
   modal: boolean;
+  task: Task | null;
 }

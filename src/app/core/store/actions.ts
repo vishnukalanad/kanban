@@ -20,3 +20,5 @@ export const addToDoneList = createAction("[Tasks] add to done", props<{task: Ta
 export const reorderTasks = createAction("[Tasks] reorder tasks", props<{column: TaskTypes, prevIndex: number, nextIndex: number}>());
 
 export const modalToggle = createAction("[Tasks] modal toggle");
+
+export const taskPreview = createAction("[Tasks] task preview", props<{task: Task}>());

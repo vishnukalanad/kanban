@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ITaskService} from '../interfaces/ITaskService';
 import {Task} from '../interfaces/Task';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {getDoneTasks, getInProgressTasks, getTasks, getTodoTasks} from '../store/selectors';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {
@@ -143,5 +143,10 @@ export class TaskService implements ITaskService {
     this.store.dispatch(setTodoTasks({tasks: todoTasks}))
     this.store.dispatch(setInProgressTasks({tasks: inProgressTasks}))
     this.store.dispatch(setDoneTasks({tasks: doneTasks}))
+  }
+
+  getTask(taskId: string): Observable<Task | null> {
+    const task = this.getFromStorage().find(t => t.id === taskId);
+    return of(task ?? null);
   }
 }

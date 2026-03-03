@@ -7,7 +7,7 @@ import {
   setDoneTasks,
   setInProgressTasks,
   setTasks,
-  setTodoTasks
+  setTodoTasks, taskPreview
 } from './actions';
 
 const initialState: State = {
@@ -15,7 +15,8 @@ const initialState: State = {
   todo: [],
   "in-progress": [],
   done: [],
-  modal: false
+  modal: false,
+  task: null
 }
 
 export const taskReducer = createReducer(
@@ -77,6 +78,12 @@ export const taskReducer = createReducer(
     ...state,
     modal: !state.modal
   })),
+
+
+  on(taskPreview, (state, {task}) => ({
+    ...state,
+    task: task
+  }))
 );
 
 function moveItem<T>(array: T[], fromIndex: number, toIndex: number): T[] {

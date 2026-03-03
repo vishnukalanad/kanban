@@ -17,15 +17,15 @@
        (cdkDropListDropped)="drop($event)" [id]="type()" [cdkDropListConnectedTo]="connectedTo">
     @for (task of tasks(); track task.id) {
       @if (task.status === type()) {
-        <div cdkDrag [cdkDragData]="task" class="bg-white rounded-xl border border-slate-200 p-4" id="{{ task.id }}"
+        <div cdkDrag [cdkDragData]="task" class="bg-white rounded-xl border border-slate-200 p-4 cursor-pointer" id="{{ task.id }}"
              (cdkDragStarted)="dragging = true; draggingId = task.id"
-             (cdkDragEnded)="draggingId = null; dragging = false">
+             (cdkDragEnded)="draggingId = null; dragging = false" (click)="taskClick(task)">
           <ng-template cdkDragPlaceholder>
             <div class="flex items-center  h-[100px] justify-center border border-dashed border-slate-300 rounded-xl ">
               <p class="text-sm text-slate-500">Over here!</p>
             </div>
           </ng-template>
-          <app-tasks [task]="task" (delete)="deleteTask($event)"></app-tasks>
+          <app-tasks [task]="task" (delete)="deleteTask($event)" ></app-tasks>
         </div>
       }
     }
