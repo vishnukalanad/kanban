@@ -21,7 +21,7 @@ import {Task, TasksPaginated} from '../../core/interfaces/Task';
 })
 export class TaskList {
   myColumns = [
-    { key: '#', header: 'ID' },
+    { key: '#', header: 'Sl.' },
     { key: 'title', header: 'Task' },
     { key: 'description', header: 'Description' },
     { key: 'dueDate', header: 'Due Date' },
