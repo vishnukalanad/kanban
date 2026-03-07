@@ -1,4 +1,4 @@
-import {Task} from './Task';
+import {Task, TasksPaginated} from './Task';
 import {Observable} from 'rxjs';
 import {TaskTypes} from '../types/Tasks';
 
@@ -13,4 +13,5 @@ export interface ITaskService {
   initializeTasks(): void;
   manualDelete(taskId: string): void;
   getTask(taskId: string): Observable<Task | null>;
+  getPaginatedTasks(page: number, pageSize: number): Observable<TasksPaginated>;
 }

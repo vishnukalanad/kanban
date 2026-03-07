@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ITaskService} from '../interfaces/ITaskService';
-import {Task} from '../interfaces/Task';
+import {Task, TasksPaginated} from '../interfaces/Task';
 import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {getDoneTasks, getInProgressTasks, getTasks, getTodoTasks} from '../store/selectors';
@@ -148,5 +148,24 @@ export class TaskService implements ITaskService {
   getTask(taskId: string): Observable<Task | null> {
     const task = this.getFromStorage().find(t => t.id === taskId);
     return of(task ?? null);
+  }
+
+  getPaginatedTasks(page: number, pageSize: number): Observable<TasksPaginated> {
+
+    const tasks = this.getFromStorage();
+    const total = tasks.length;
+
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+
+    const paginatedTasks: Task[] = tasks.slice(start, end);
+
+    return of({
+      tasks: paginatedTasks,
+      total,
+      page,
+      pageSize,
+      totalPages: Math.ceil(total / pageSize)
+    });
   }
 }

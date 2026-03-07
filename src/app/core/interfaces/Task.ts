@@ -17,3 +17,11 @@ export interface Comment {
   postedBy: string;
   date: Date;
 }
+
+export interface TasksPaginated {
+  tasks: Task[],
+  total: number,
+  page: number,
+  pageSize: number,
+  totalPages: number
+}

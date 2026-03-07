@@ -1,1 +1,4 @@
-<p>task-list works!</p>
+<app-table
+  [columns]="myColumns"
+  [data]="myTableData" emptyMessage="You don’t have any tasks yet. Use “Create Task” to add one." (pageChange)="pageChange($event)" [totalElements]="total">
+</app-table>
