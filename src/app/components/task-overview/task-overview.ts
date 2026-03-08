@@ -1,50 +1,42 @@
-import { Component } from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {IconCard} from '../icon-card/icon-card';
+import {Dashboard} from '../dashboard/dashboard';
+import {TASK_SERVICE} from '../../core/tokens/TaskService';
+import {TaskService} from '../../core/services/task-service';
+import {ITaskService} from '../../core/interfaces/ITaskService';
+import {ChartData} from '../../core/interfaces/IDashboard';
 
 @Component({
   selector: 'app-task-overview',
   imports: [
-    IconCard
+    IconCard,
+    Dashboard
+  ],
+  providers: [
+    {
+      provide: TASK_SERVICE,
+      useClass: TaskService
+    }
   ],
   templateUrl: './task-overview.html',
   styleUrl: './task-overview.css',
 })
 export class TaskOverview {
-  cardsData: any[] = [
-    {
-      id: "1",
-      title: "Completed tasks",
-      icon: "bi bi-check-circle",
-      color: "bg-yellow-400",
-      count: 10,
-      description: "in the past 7 days"
+  cardData: ChartData = {
+    total: 0,
+    todo: 0,
+    inProgress: 0,
+    done: 0
+  };
+  constructor(@Inject(TASK_SERVICE) private taskService: ITaskService) {
 
-    },
-    {
-      id: "2",
-      title: "Updated",
-      icon: "bi bi-pencil",
-      color: "bg-blue-400",
-      count: 5,
-      description: "in the past 7 days"
-    },
-    {
-      id: "3",
-      title: "Created",
-      icon: "bi bi-plus-circle",
-      color: "bg-green-400",
-      count: 6,
-      description: "in the past 7 days"
+  }
 
-    },
-    {
-      id: "4",
-      title: "Due",
-      icon: "bi bi-calendar-date",
-      color: "bg-orange-400",
-      count: 2,
-      description: "in the past 7 days"
-
-    },
-  ]
+  ngOnInit() {
+    this.taskService.getChartData().subscribe({
+      next: data => {
+        this.cardData = data;
+      }
+    })
+  }
 }

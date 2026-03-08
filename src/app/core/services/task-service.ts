@@ -17,6 +17,7 @@ import {
   setTodoTasks
 } from '../store/actions';
 import {TaskTypes} from '../types/Tasks';
+import {ChartData} from '../interfaces/IDashboard';
 
 @Injectable({
   providedIn: 'root',
@@ -167,5 +168,39 @@ export class TaskService implements ITaskService {
       pageSize,
       totalPages: Math.ceil(total / pageSize)
     });
+  }
+
+  getChartData(): Observable<ChartData> {
+
+    const tasks: Task[] = this.getFromStorage();
+
+    const chartData: ChartData = {
+      total: tasks.length,
+      todo: 0,
+      inProgress: 0,
+      done: 0
+    };
+
+    for (const task of tasks) {
+
+      switch (task.status) {
+
+        case "todo":
+          chartData.todo++;
+          break;
+
+        case "in-progress":
+          chartData.inProgress++;
+          break;
+
+        case "done":
+          chartData.done++;
+          break;
+
+      }
+
+    }
+
+    return of(chartData);
   }
 }

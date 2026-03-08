@@ -1,6 +1,7 @@
 import {Task, TasksPaginated} from './Task';
 import {Observable} from 'rxjs';
 import {TaskTypes} from '../types/Tasks';
+import {ChartData} from './IDashboard';
 
 export interface ITaskService {
   getTasks(type: "todo" | "in-progress" | "done"): any;
@@ -14,4 +15,5 @@ export interface ITaskService {
   manualDelete(taskId: string): void;
   getTask(taskId: string): Observable<Task | null>;
   getPaginatedTasks(page: number, pageSize: number): Observable<TasksPaginated>;
+  getChartData(): Observable<ChartData>;
 }
